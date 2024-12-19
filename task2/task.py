@@ -2,11 +2,14 @@ import click
 import csv
 import io
 
+
 @click.group()
 def cli():
     pass
 
+
 path_option = click.option('-p', '--file-path', type=str, required=True, help='Path to file')
+
 
 @cli.command(help='Read csv file and calc extensional length')
 @path_option
@@ -32,8 +35,8 @@ def read_graph(raw_string: str):
         rev_graph[v].append(u)
     return graph, rev_graph, len(graph)
 
-    
-def dfs_size_and_parent(graph, size, parent, v, p = -1):
+
+def dfs_size_and_parent(graph, size, parent, v, p=-1):
     # size[v] != 0 --> used
     if size[v] != 0:
         return
@@ -45,23 +48,25 @@ def dfs_size_and_parent(graph, size, parent, v, p = -1):
         size[v] += size[u]
 
 
-def dfs_depth(graph, depth, v, d = 0):
+def dfs_depth(graph, depth, v, d=0):
     depth[v] = d
     for u in graph[v]:
         dfs_depth(graph, depth, u, d + 1)
 
 
 def build_subtrees_size_and_parent(graph, n):
-    size = [ 0 ] * n
-    parent = [ -1 ] * n
+    size = [0] * n
+    parent = [-1] * n
     for i in range(n):
         dfs_size_and_parent(graph, size, parent, i)
     return size, parent
+
 
 def build_depth(graph, root, n):
     depth = [0] * n
     dfs_depth(graph, depth, root)
     return depth
+
 
 def main(raw_string: str):
     graph, rev_graph, number = read_graph(raw_string)
@@ -92,13 +97,14 @@ def main(raw_string: str):
         # number of parent sons except root
         l5 = 0 if v == root else len(graph[parent[v]]) - 1
 
-        result.append([l1, l2, l3, l4, l5 ])
+        result.append([l1, l2, l3, l4, l5])
 
     output = io.StringIO()
     writer = csv.writer(output)
     writer.writerows(result)
 
     return output.getvalue()
+
 
 if __name__ == '__main__':
     cli()
