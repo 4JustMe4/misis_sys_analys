@@ -12,7 +12,7 @@ a_option = click.option('-a', '--path-to-a', type=str, required=True, help='Path
 b_option = click.option('-b', '--path-to-b', type=str, required=True, help='Path to file b.json')
 
 
-@cli.command(help='Read csv file and calc extensional length')
+@cli.command(help='Read json-s and calc contradictions')
 @a_option
 @b_option
 def run(path_to_a: str, path_to_b: str):
