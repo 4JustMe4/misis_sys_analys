@@ -2,13 +2,16 @@ import click
 import csv
 import json
 
+
 @click.group()
 def cli():
     pass
 
+
 path_option = click.option('-p', '--file-path', type=str, required=True, help='Path to file')
 raw_option = click.option('-r', '--row', type=int, required=True, help='Raw number')
 col_option = click.option('-c', '--column', type=int, required=True, help='Column number')
+
 
 @cli.command(help='Read value of csv table by indexes')
 @path_option
@@ -35,6 +38,7 @@ cli.add_command(read)
 
 def main():
     cli()
+
 
 if __name__ == '__main__':
     main()
