@@ -24,6 +24,7 @@ def run(path_to_a: str, path_to_b: str):
 
 cli.add_command(run)
 
+
 def build_index(ranking):
     index = {}
     for pos, cluster in enumerate(ranking):
@@ -33,6 +34,7 @@ def build_index(ranking):
         else:
             index[cluster] = pos
     return index
+
 
 def main(ranking1_json, ranking2_json):
     ranking1 = json.loads(ranking1_json)
@@ -45,7 +47,7 @@ def main(ranking1_json, ranking2_json):
 
     # We go through all pairs of elements and look for an inversion
     all_items = set(index1.keys()).union(set(index2.keys()))
-    
+
     for item1, item2 in product(all_items, repeat=2):
         if item1 != item2:
             pos1_first = index1.get(item1, float('inf'))
@@ -53,13 +55,14 @@ def main(ranking1_json, ranking2_json):
             pos1_second = index2.get(item1, float('inf'))
             pos2_second = index2.get(item2, float('inf'))
 
-            # Проверяем условие противоречия
-            if (pos1_first < pos2_first and pos1_second > pos2_second) or \
-               (pos1_first > pos2_first and pos1_second < pos2_second):
+            if (pos1_first < pos2_first and pos1_second > pos2_second) or (
+                pos1_first > pos2_first and pos1_second < pos2_second
+            ):
                 contradictions.append(tuple(sorted((item1, item2))))
 
     contradictions = sorted(set(contradictions))
     return json.dumps(contradictions)
+
 
 # Пример использования
 if __name__ == "__main__":
